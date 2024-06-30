@@ -1,0 +1,85 @@
+\documentclass[a4paper,12pt,twoside]{book}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+
+\usepackage[a4paper,top=.5in,bottom=.5in,left=.5in,right=.5in]{geometry}
+\usepackage[svgnames]{xcolor}
+\usepackage{csquotes}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{titling}
+\usepackage[hidelinks,hyperfootnotes=false,breaklinks=true,pdfauthor={Winterer, Mathis Aaron},pdftitle={Bedeutung von starken Primzahlen für die heutige Zeit},pdfsubject={Mathematische Exemplifikation des RSA-Algorithmuses},pdfkeywords={RSA,Verschlüsselung,Kryptographie,Mathematik,Primzahlen},colorlinks=true,linkcolor=black,filecolor=magenta,urlcolor=red,citecolor=blue]{hyperref}
+\usepackage{tocloft}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\usepackage[backend=biber,bibstyle=authoryear,style=alphabetic,urldate=iso,seconds=true,]{biblatex}
+
+\setmainlanguage[variant=german,spelling=new,capitaleszett=true,babelshorthands=true]{german}
+\setmainfont{IBM Plex Mono}
+\addbibresource{bib.bib}
+
+\titleformat{\chapter}[block]{\huge\bfseries}{\thechapter.}{0.5em}{}[\titlerule\titlerule\vspace{-2em}]
+
+\fancypagestyle{plain}{%
+  \lhead{}
+  \fancyhead[LO]{}
+  \fancyhead[RE]{}
+  \fancyhead[LE,RO]{}
+  \renewcommand{\headrulewidth}{0pt}
+  \fancyfoot{}
+  \fancyfoot[LO]{}
+  \fancyfoot[RE]{}
+  \fancyfoot[LO,RE]{\thepage}
+  \renewcommand{\footrulewidth}{1pt}
+}
+
+\renewcommand{\baselinestretch}{1.2} 
+\setlength{\footskip}{20pt}
+\titlespacing*{\chapter}{0pt}{-19pt}{6em}
+\renewcommand{\cfttoctitlefont}{\sffamily\bfseries\Large}
+\renewcommand{\cftchapfont}{\bfseries}
+\renewcommand{\cftsubsecfont}{\normalfont}
+\renewcommand{\maketitle}{%
+  \begin{center}
+    \Huge\thetitle\\
+    \vspace{1em}
+    \normalsize\textit{Eine Einführung in das RSA-Verschlüsselungssystem}\\
+    \vspace{2em}
+    \Large\theauthor\\
+    \vspace{2em}
+    \large\textit{\textlang{german}{\today}}
+  \end{center}
+  \newpage
+}
+
+\title{Bedeutung von starken Primzahlen für die heutige Zeit}
+\author{Winterer, Mathis Aaron}
+
+\begin{document}
+  \frontmatter{}
+  \pagenumbering{gobble}
+  \maketitle
+
+  \pagestyle{plain}
+  \pagenumbering{roman}
+  \tableofcontents
+  \newpage
+  \listoffigures
+  \newpage
+  \listoftables
+  \newpage
+
+  \mainmatter{}
+  \input{chapters/introduction}
+  \newpage
+  \input{chapters/principles}
+  \newpage
+  \input{chapters/examples}
+  \newpage
+  \backmatter{}
+
+  \nocite{*}
+  \printbibliography{}
+\end{document}

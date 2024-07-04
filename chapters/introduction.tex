@@ -11,5 +11,47 @@ Das Ziel dieser Facharbeit ist es den weit verbreiteten und etablierten RSA-Algo
 \newpage
 
 \section{Hintergrund der RSA-Verschlüsselung}
+
+$n-1=d\times{}2^j$
+
+\begin{cminted}{MillerRabin.cs}
+private static (BigInteger, BigInteger) FirstPart(BigInteger n)
+{
+    // nMinusOne
+    BigInteger nMo = n - 1;
+    BigInteger j = 0;
+    BigInteger d = nMo;
+
+    // Divide $n - 1$ By $2$ Until The Result Is Odd, Incrementing `$j$` Everytime And Storing The Result In `$d$`, So That `$n - 1 = d * 2^j$`
+    while (d % 2 == 0)
+    {
+        d /= 2;
+        j++;
+    }
+
+    return (d, j);
+}
+\end{cminted}
+\newpage
+
+\begin{figure}[ht]
+  \includegraphics{sinx.pdf}
+  \caption{sin(x) über [0; 6,28]}
+\end{figure}
+
+\begin{table}
+  \center
+\begin{tabular}{@{}llr@{}} \toprule
+\multicolumn{2}{c}{Item} \\ \cmidrule(r){1-2}
+Animal & Description & Price (\$)\\ \midrule
+Gnat & per gram & 13.65 \\
+& each & 0.01 \\
+Gnu & stuffed & 92.50 \\
+Emu & stuffed & 33.33 \\
+Armadillo & frozen & 8.99 \\ \bottomrule
+\end{tabular}
+  \caption{Tabelle}
+\end{table}
+
 \newpage
 \section{Anwendungsbereiche der RSA-Verschlüsselung}

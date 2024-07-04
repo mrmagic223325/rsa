@@ -3,9 +3,12 @@
 \usepackage{amssymb}
 \usepackage{amsmath}
 
-
 \usepackage[a4paper,top=.5in,bottom=.5in,left=.5in,right=.5in]{geometry}
+\usepackage{booktabs}
 \usepackage[svgnames]{xcolor}
+\usepackage{pdfpages}
+\usepackage{minted}
+\usepackage[skins,minted]{tcolorbox}
 \usepackage{csquotes}
 \usepackage{fancyhdr}
 \usepackage{titlesec}
@@ -18,7 +21,33 @@
 
 \setmainlanguage[variant=german,spelling=new,capitaleszett=true,babelshorthands=true]{german}
 \setmainfont{IBM Plex Mono}
+\setsansfont{IBM Plex Mono}
+\setmonofont{IBM Plex Mono}
+
+\graphicspath{{figs/}}
 \addbibresource{bib.bib}
+\definecolor{mintbg}{rgb}{0.23, 0.27, 0.29}
+\definecolor{red}{HTML}{FF6961}
+\usemintedstyle[csharp]{github-dark}
+\setminted[csharp]{
+  mathescape,
+  frame=leftline,
+  framesep=2mm,
+  numberblanklines,
+  numbersep=12pt,
+  numbersep=5pt,
+  baselinestretch=1.2,
+  rulecolor=red,
+  stripall,
+  tabsize=4,
+  funcnamehighlighting=true,
+  autogobble,
+  linenos,
+  fontsize=\footnotesize,
+  bgcolor=mintbg,
+  breaklines,
+}
+\newtcblisting{cminted}[2][]{listing engine=minted, listing only,#1, title=#2, minted language=csharp, colback=mintbg}
 
 \titleformat{\chapter}[block]{\huge\bfseries}{\thechapter.}{0.5em}{}[\titlerule\titlerule\vspace{-2em}]
 

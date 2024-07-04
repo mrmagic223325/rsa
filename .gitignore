@@ -1,4 +1,10 @@
 ## Core latex/pdflatex auxiliary files:
+*.lock
+code/*/obj/
+.idea/
+code/*/bin/
+.envrc
+.direnv/*
 *.aux
 *.lof
 *.log

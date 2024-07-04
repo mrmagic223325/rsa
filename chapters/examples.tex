@@ -1,8 +1,22 @@
 \chapter{Anwendungsbeispiel}
 
 \section{Schlüsselerzeugung}
+
+Für die Erzeugung eines Schlüsselpaares werden zwei zufällige große Primzahlen $p$ und $q$ gewählt.
+Um das Errechnen von $p$ und $q$ durch Faktorisierung von $n$ zu Erschweren sollten Primzahlen für $p$ und $q$ gewählt werden, welche beide \textquote{groß}\footnote{Derzeitig sichere RSA-Schlüssel besitzen zwischen $1024$-und $4096$-Bits beziehungsweise $128$-und $512$-Bytes} und \textquote{weit} auseinander liegen. Beide Primfaktoren $p$ und $q$ sind durch die Bitgröße von $n$, für welche in der Regel eine Zweierpotenz gewählt wird, beschränkt, wobei $p$ und $q$ normalerweise entweder gleich groß oder annähernd gleich groß sind. Für jeden Wert $n$ ist die Bytegröße $nB$:
+\begin{align}
+  \{nB \in \mathbb{N}\;|\; 6 \le nB \le 512 \}\\
+  nB=\lfloor\log_2{n}\rfloor+1=\lfloor\frac{\log{n}}{\log{2}}\rfloor+1
+\end{align}
+So ergibt sich für $nB=512$ $p$, $q$ und $n$:
+\begin{align}
+\{p \in \mathbb{N}\;|\; 5 < p \le 2^{256}-1 \}\\
+\{q \in \mathbb{N}\;|\; 11 < q \le 2^{256}-1 \}\\
+\{n \in \mathbb{N}\;|\; 55 \le n \le 2^{512}-1 \}
+\end{align}
+
 \newpage
-\section{Schlüsserlverteilung}
+\section{Schlüsselverteilung}
 \newpage
 \section{Verschlüsselung}
 \newpage

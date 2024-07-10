@@ -2,6 +2,8 @@
 
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{unicode-math}
+\usepackage{seqsplit}
 
 \usepackage[a4paper,top=.5in,bottom=.5in,left=.5in,right=.5in]{geometry}
 \usepackage{booktabs}
@@ -23,6 +25,7 @@
 \setmainfont{IBM Plex Mono}
 \setsansfont{IBM Plex Mono}
 \setmonofont{IBM Plex Mono}
+\setmathfont{STIX Two Math}
 
 \graphicspath{{figs/}}
 \addbibresource{bib.bib}
@@ -64,7 +67,13 @@
   \renewcommand{\footrulewidth}{1pt}
 }
 
+\futurelet\TMPfootrule\def\footrule{{\color{black!15}\TMPfootrule}}
+
+\setlength{\cftsubsubsecnumwidth}{4.5em}
 \renewcommand{\baselinestretch}{1.2} 
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\setlength{\parindent}{0pt}
 \setlength{\footskip}{20pt}
 \titlespacing*{\chapter}{0pt}{-19pt}{6em}
 \renewcommand{\cfttoctitlefont}{\sffamily\bfseries\Large}

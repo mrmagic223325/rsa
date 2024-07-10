@@ -2,18 +2,63 @@
 
 \section{Schlüsselerzeugung}
 
-Für die Erzeugung eines Schlüsselpaares werden zwei zufällige große Primzahlen $p$ und $q$ gewählt.
-Um das Errechnen von $p$ und $q$ durch Faktorisierung von $n$ zu Erschweren sollten Primzahlen für $p$ und $q$ gewählt werden, welche beide \textquote{groß}\footnote{Derzeitig sichere RSA-Schlüssel besitzen zwischen $1024$-und $4096$-Bits beziehungsweise $128$-und $512$-Bytes} und \textquote{weit} auseinander liegen. Beide Primfaktoren $p$ und $q$ sind durch die Bitgröße von $n$, für welche in der Regel eine Zweierpotenz gewählt wird, beschränkt, wobei $p$ und $q$ normalerweise entweder gleich groß oder annähernd gleich groß sind. Für jeden Wert $n$ ist die Bytegröße $nB$:
+Für die Erzeugung eines Schlüsselpaares werden zwei zufällige große Primzahlen $p$ und $q$ so gewählt, dass eine Fastprimzahl $n=pq$ berechnet werden kann. Im Verlauf dieser Arbeit wird immer angenommen, dass $p$ und $q$ die selbe Bitgröße besitzen, wobei dies für den RSA-Algorithmus nicht zwingend notwendig ist.
+Um das Errechnen von $p$ und $q$ durch Faktorisierung von $n$ zu Erschweren sollten Primzahlen für $p$ und $q$ gewählt werden, welche beide \textquote{groß}\footnote{Derzeitig sichere RSA-Schlüssel besitzen normalerweise zwischen $1024$- und $4096$-bit} und \textquote{weit} auseinander liegen.
+Beide Primfaktoren $p$ und $q$ sind durch die Bitgröße von $n$, für welche in der Regel eine Zweierpotenz gewählt wird, beschränkt, wobei $p$ und $q$ in der Regel entweder gleich groß oder annähernd gleich groß sind. $pbit$ und $qbit$ seien für jeden Wert $p$ und $q$ als die Bitgröße dieser definiert.
+Für $p\coloneq2$ sei $q\coloneq3$ und für $p\coloneq3$ sei $q\coloneq2$, da dies die kleinsten Primzahlen sind für welche ein funktionierendes $n$ berechnet werden kann:
 \begin{align}
-  \{nB \in \mathbb{N}\;|\; 6 \le nB \le 512 \}\\
-  nB=\lfloor\log_2{n}\rfloor+1=\lfloor\frac{\log{n}}{\log{2}}\rfloor+1
+  \left\{\,p \in \mathbb{P}\mid (q=2 \implies 3 \le p) \oplus (q=3 \implies 2 \le p)\, \right\}\\
+  \left\{\,q \in \mathbb{P}\mid (p=2 \implies 3 \le q) \oplus (p=3 \implies 2 \le q)\, \right\}\\
+  \left\{\,pbit \in \mathbb{N}\mid 2 \le pbit\, \right\}\\
+  \left\{\,qbit \in \mathbb{N}\mid 2 \le qbit\, \right\}\\
+  pbit=\left\lfloor\frac{\ln{p}}{\ln{2}}\right\rfloor+1=\left\lfloor\log_2{p}\right\rfloor+1\\
+  qbit=\left\lfloor\frac{\ln{q}}{\ln{2}}\right\rfloor+1=\left\lfloor\log_2{q}\right\rfloor+1
 \end{align}
-So ergibt sich für $nB=512$ $p$, $q$ und $n$:
+
+Somit sei für eine Zahl $p\coloneq2^{2048}-1$ die Bitgröße $pbit$ dementsprechend:
+
 \begin{align}
-\{p \in \mathbb{N}\;|\; 5 < p \le 2^{256}-1 \}\\
-\{q \in \mathbb{N}\;|\; 11 < q \le 2^{256}-1 \}\\
-\{n \in \mathbb{N}\;|\; 55 \le n \le 2^{512}-1 \}
+  pbit=\left\lfloor\log_2{p}\right\rfloor+1=2048
 \end{align}
+
+Folgend sei für jeden Wert $n$ die Bitgröße $nbit$:
+
+\begin{align}
+  \left\{\,nbit \in \mathbb{N}\mid 3 \le nbit\, \right\}\\
+  nbit=\left\lfloor\frac{\ln{n}}{\ln{2}}\right\rfloor+1=\left\lfloor\log_2{n}\right\rfloor+1\\
+  nbit=pbit+qbit
+\end{align}
+
+So ergeben sich für $nbit\coloneq4096$ $p$, $q$ und $n$:
+
+\begin{align}
+  \left\{\,n \in \mathbb{P}^2\mid 6 \le n \le 2^{4096}-1\, \right\}
+\end{align}
+\newpage
+Zwischen 1991 und 2007 veröffentlichte RSA Laboratories die sogenannten \textquote{RSA-Zahlen}. Diese Zahlen waren verschiedene Werte $n$ zwischen 100- und 2048-bit Ziel dieser Aktion war es die Forschung im Bereich der effizienten Faktorisierung voranzutreiben, dies wurde durch beträchtliche Preisgelder für einige dieser Zahlen bezweckt. Zum derzeitigem Standpunkt ist \textquote{RSA-250} die zuletzt Faktorisierte \textquote{RSA-Zahl} mit 829-bit\cite{rsa250}. Die nächste \textquote{RSA-Zahl} \textquote{RSA-260} enthält $862$-bit und wurde bis zu diesem Zeitpunkt nicht faktorisiert. Somit ergeben sich für $p$, $q$, $n$ und $nbit$ durch die Primfaktoren von \textquote{RSA-250} neue Mindestanforderungen:
+\begin{align}
+{\scriptscriptstyle a=64135289477071580278790190170577389084825014742943447208116859632024532344630238623598752668347708737661925585694639798853367}\\
+{\scriptscriptstyle b=33372027594978156556226010605355114227940760344767554666784520987023841729210037080257448673296881877565718986258036932062711}\\
+\left\{\,p \in \mathbb{P}\mid (p=a \implies a \le p \land b \le q) \oplus (p=b \implies b \le p \land a \le q)\, \right\}\\
+\left\{\,q \in \mathbb{P}\mid (q=a \implies a \le q \land b \le p) \oplus (q=b \implies b \le q \land a \le p)\, \right\}\\
+  \left\{\,n \in \mathbb{P}^2\mid 2^{862}-1 < n\, \right\}\\
+\left\{\,nbit \in \mathbb{N}\mid 862 < nbit\, \right\}
+\end{align}
+
+Das deutsche Bundesamt für Sicherheit in der Informationstechnik empfiehlt die Verwendung von RSA-Schlüsseln mit mehr als 3000-Bit.\cite{bsicrypto} Somit ergeben sich erneut neue Definitionen für $p$, $q$, $n$, $pbit$, $qbit$ und $nbit$:
+
+\begin{align}
+  \left\{\,p \in \mathbb{P}\mid 2^{1500}-1 \le p\, \right\}\\
+  \left\{\,q \in \mathbb{P}\mid 2^{1500}-1 \le q\, \right\}\\
+  \left\{\,n \in \mathbb{P}^2\mid 2^{3000}-1 \le n\, \right\}\\
+  pbit=\left\lfloor\frac{\ln{p}}{\ln{2}}\right\rfloor+1=\left\lfloor\log_2{p}\right\rfloor+1=1500\\
+  qbit=\left\lfloor\frac{\ln{q}}{\ln{2}}\right\rfloor+1=\left\lfloor\log_2{q}\right\rfloor+1=1500\\
+  nbit=\left\lfloor\frac{\ln{n}}{\ln{2}}\right\rfloor+1=\left\lfloor\log_2{n}\right\rfloor+1=3000\\
+  nbit=pbit+qbit\\
+  n=p \times q
+\end{align}
+
+Als Teil meiner Arbeit werde ich $nbit=4096$ als Bitgröße verwenden, da $4096$-Bit die derzeit größte weit verbreitete Schlüsselgröße bei RSA-Schlüsseln ist.
 
 \newpage
 \section{Schlüsselverteilung}

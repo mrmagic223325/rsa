@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt,twoside]{book}
+\documentclass[a4paper,12pt,twoside,fleqn]{book}
 
 \usepackage{amssymb}
 \usepackage{amsmath}
@@ -19,13 +19,15 @@
 \usepackage{tocloft}
 \usepackage{fontspec}
 \usepackage{polyglossia}
-\usepackage[backend=biber,bibstyle=authoryear,style=alphabetic,urldate=iso,seconds=true,]{biblatex}
+\usepackage[backend=biber,bibstyle=authoryear,style=alphabetic,seconds=true,]{biblatex}
 
 \setmainlanguage[variant=german,spelling=new,capitaleszett=true,babelshorthands=true]{german}
 \setmainfont{IBM Plex Mono}
 \setsansfont{IBM Plex Mono}
 \setmonofont{IBM Plex Mono}
 \setmathfont{STIX Two Math}
+
+\emergencystretch=1em
 
 \graphicspath{{figs/}}
 \addbibresource{bib.bib}
@@ -96,6 +98,7 @@
 \author{Winterer, Mathis Aaron}
 
 \begin{document}
+  \nonfrenchspacing
   \frontmatter{}
   \pagenumbering{gobble}
   \maketitle
@@ -112,9 +115,11 @@
   \mainmatter{}
   \input{chapters/introduction}
   \newpage
-  \input{chapters/principles}
+  \input{chapters/principles/principles.tex}
   \newpage
-  \input{chapters/examples}
+  \input{chapters/examples/examples.tex}
+  \newpage
+  \input{chapters/conclusion}
   \newpage
   \backmatter{}
 

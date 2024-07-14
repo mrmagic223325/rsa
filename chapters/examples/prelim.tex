@@ -1,0 +1,80 @@
+\section{Voraussetzungen}
+
+Für die Erzeugung eines Schlüsselpaares werden zwei zufällige große Primzahlen $p$ und $q$ so gewählt, dass eine Fastprimzahl $n=pq$ berechnet werden kann. Im Verlauf dieser Arbeit wird immer angenommen, dass $p$ und $q$ die selbe Bitgröße besitzen $pbit=qbit$, wobei dies für den RSA-Algorithmus nicht zwingend notwendig ist.
+Um das Errechnen von $p$ und $q$ durch Faktorisierung von $n$ zu Erschweren sollten Primzahlen für $p$ und $q$ gewählt werden, welche beide \textquote{groß}\footnote{Derzeitig sichere RSA-Schlüssel besitzen normalerweise zwischen $1024$- und $4096$-bit} und \textquote{weit} auseinander liegen.
+Beide Primfaktoren $p$ und $q$ sind durch die Bitgröße von $n$, für welche in der Regel eine Zweierpotenz gewählt wird, beschränkt, wobei $pbit$ und $qbit$ in der Regel entweder gleich groß oder annähernd gleich groß sind. $pbit$ und $qbit$ seien für jeden Wert $p$ und $q$ als die Bitgröße dieser definiert.
+Für $p\ge2$ sei $q\ge3 \land q\ne2$ und für $p\ge3$ sei $q\ge2 \land q\ne3$, da dies die kleinsten Primzahlen sind für welche ein $n$ berechnet werden kann:
+\begin{equation}
+  \begin{split}
+    &\left\{\,p \in \mathbb{P}\mid (q=2 \implies 3 \le p) \oplus (q=3 \implies (2 \le p \land p \ne 3))\, \right\}\\
+    &\left\{\,q \in \mathbb{P}\mid (p=2 \implies 3 \le q) \oplus (p=3 \implies (2 \le q \land q \ne 3))\, \right\}\\
+    &\left\{\,pbit \in \mathbb{N}\mid 2 \le pbit\, \right\}\\
+    &\left\{\,qbit \in \mathbb{N}\mid 2 \le qbit\, \right\}\\
+    &pbit=\left\lfloor\frac{\ln{p}}{\ln{2}}\right\rfloor+1=\left\lfloor\log_2{p}\right\rfloor+1\\
+    &qbit=\left\lfloor\frac{\ln{q}}{\ln{2}}\right\rfloor+1=\left\lfloor\log_2{q}\right\rfloor+1
+  \end{split}
+\end{equation}
+
+Somit sei für eine Zahl $p\coloneq2^{2048}-1$ die Bitgröße $pbit$ dementsprechend:
+
+\begin{equation}
+  pbit=\left\lfloor\log_2{p}\right\rfloor+1=2048
+\end{equation}
+
+Folgend sei für jeden Wert $n$ die Bitgröße $nbit$:
+
+\begin{equation}
+  \begin{split}
+    &\left\{\,nbit \in \mathbb{N}\mid 3 \le nbit\, \right\}\\
+    &nbit=\left\lfloor\frac{\ln{n}}{\ln{2}}\right\rfloor+1=\left\lfloor\log_2{n}\right\rfloor+1\\
+    &nbit=pbit+qbit
+  \end{split}
+\end{equation}
+
+Somit ergibt sich für $nbit\coloneq4096$, $pbit\coloneq2048$ und $qbit\coloneq2048$:
+
+\begin{equation}
+  \left\{\,n \in \mathbb{P} \times \mathbb{P}\mid n \ne 4 \land 6 \le n \le 2^{4096}-1\, \right\}
+\end{equation}
+\newpage
+Zwischen 1991 und 2007 veröffentlichte RSA Laboratories die sogenannten \textquote{RSA-Zahlen}. Diese Zahlen waren verschiedene Werte $n$ zwischen 100- und 2048-bit. Ziel dieser Aktion war es die Forschung im Bereich der effizienten Faktorisierung voranzutreiben, dies wurde durch beträchtliche Preisgelder für einige dieser Zahlen bezweckt. Zum derzeitigem Standpunkt ist \textquote{RSA-250} die zuletzt Faktorisierte \textquote{RSA-Zahl} mit 829-bit\cite{rsa250}. Die nächste \textquote{RSA-Zahl} \textquote{RSA-260} enthält $862$-bit und wurde bis zu diesem Zeitpunkt nicht faktorisiert. Somit ergeben sich für $p$, $q$, $n$ und $nbit$ durch die Primfaktoren von \textquote{RSA-250} neue Mindestanforderungen:
+\begin{equation}
+  \begin{split}
+    &{\scriptscriptstyle a=64135289477071580278790190170577389084825014742943447208116859632024532344630238623598752668347708737661925585694639798853367}\\
+    &{\scriptscriptstyle b=33372027594978156556226010605355114227940760344767554666784520987023841729210037080257448673296881877565718986258036932062711}\\
+    &\left\{\,p \in \mathbb{P}\mid (p=a \implies a \le p \land b \le q) \oplus (p=b \implies b \le p \land a \le q)\, \right\}\\
+    &\left\{\,q \in \mathbb{P}\mid (q=a \implies a \le q \land b \le p) \oplus (q=b \implies b \le q \land a \le p)\, \right\}\\
+    &\left\{\,n \in \mathbb{P} \times \mathbb{P}\mid 2^{862}-1 < n\, \right\}\\
+    &\left\{\,nbit \in \mathbb{N}\mid 862 < nbit\, \right\}
+  \end{split}
+\end{equation}
+
+Das Bundesamt für Sicherheit in der Informationstechnik empfiehlt die Verwendung von RSA-Schlüsseln mit mehr als 3000-bit, um sicherzustellen, dass der Modulus $n$ derzeit nicht faktorisiert werden kann.\cite{bsicrypto} Somit ergeben sich erneut neue Definitionen für $p$, $q$, $n$, $pbit$, $qbit$ und $nbit$:
+
+\begin{equation}
+  \begin{split}
+    &\left\{\,p \in \mathbb{P}\mid 2^{1500}-1 \le p\, \right\}\\
+    &\left\{\,q \in \mathbb{P}\mid 2^{1500}-1 \le q\, \right\}\\
+    &\left\{\,n \in \mathbb{P} \times \mathbb{P}\mid 2^{3000}-1 \le n\, \right\}\\
+    &pbit=\left\lfloor\frac{\ln{p}}{\ln{2}}\right\rfloor+1=\left\lfloor\log_2{p}\right\rfloor+1=1500\\
+    &qbit=\left\lfloor\frac{\ln{q}}{\ln{2}}\right\rfloor+1=\left\lfloor\log_2{q}\right\rfloor+1=1500\\
+    &nbit=\left\lfloor\frac{\ln{n}}{\ln{2}}\right\rfloor+1=\left\lfloor\log_2{n}\right\rfloor+1=3000\\
+    &nbit=pbit+qbit\\
+    &n=p \times q
+  \end{split}
+\end{equation}
+\newpage
+
+Als Teil meiner Arbeit werde ich $nbit=4096$ als Bitgröße verwenden, da $4096$-Bit die derzeit größte weit verbreitete Schlüsselgröße bei RSA-Schlüsseln ist. Im Weiteren werde ich davon ausgehen, dass $p$ und $q$ die selbe Bitröße besitzen. Somit ergeben sich für diese Arbeit folgende finale Definitionen für $p$, $q$, $n$, $pbit$, $qbit$ und $nbit$:
+\begin{equation}
+  \begin{split}
+    &\left\{\,p \in \mathbb{P}\mid p \le 2^{2048}-1\, \right\}\\
+    &\left\{\,q \in \mathbb{P}\mid p \le 2^{2048}-1\, \right\}\\
+    &\left\{\,p \in \mathbb{P}\mid (p=2 \implies (2 \le p \le 2^{2048}-1 \land p \ne 3) \land (3 \le q \le 2^{2048}-1))\, \oplus \right. \\ &\hookrightarrow \left. (p=3 \implies (3 \le p \le 2^{2048}-1) \land (2 \le q \le 2^{2048}-1 \land q \ne 3))\, \right\}\\
+    &\left\{\,q \in \mathbb{P}\mid (q=2 \implies (2 \le q \le 2^{2048}-1 \land q \ne 3) \land (3 \le p \le 2^{2048}-1)\, \oplus \right. \\ &\hookrightarrow \left. (q=3 \implies (3 \le q \le 2^{2048}-1) \land (2 \le p \le 2^{2048}-1 \land p \ne 3)\, \right\}\\
+    &\left\{\,n \in \mathbb{P} \times \mathbb{P}\mid n \le 2^{4096}-1\, \right\}\\
+    &pbit=2048\\
+    &qbit=2048\\
+    &nbit=4096\\
+  \end{split}
+\end{equation}

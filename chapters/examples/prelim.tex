@@ -40,8 +40,8 @@ Somit ergibt sich für $nbit\coloneq4096$, $pbit\coloneq2048$ und $qbit\coloneq2
 Zwischen 1991 und 2007 veröffentlichte RSA Laboratories die sogenannten \textquote{RSA-Zahlen}. Diese Zahlen waren verschiedene Werte $n$ zwischen 100- und 2048-bit. Ziel dieser Aktion war es die Forschung im Bereich der effizienten Faktorisierung voranzutreiben, dies wurde durch beträchtliche Preisgelder für einige dieser Zahlen bezweckt. Zum derzeitigem Standpunkt ist \textquote{RSA-250} die zuletzt Faktorisierte \textquote{RSA-Zahl} mit 829-bit\cite{rsa250}. Die nächste \textquote{RSA-Zahl} \textquote{RSA-260} enthält $862$-bit und wurde bis zu diesem Zeitpunkt nicht faktorisiert. Somit ergeben sich für $p$, $q$, $n$ und $nbit$ durch die Primfaktoren von \textquote{RSA-250} neue Mindestanforderungen:
 \begin{equation}
   \begin{split}
-    &{\scriptscriptstyle a=64135289477071580278790190170577389084825014742943447208116859632024532344630238623598752668347708737661925585694639798853367}\\
-    &{\scriptscriptstyle b=33372027594978156556226010605355114227940760344767554666784520987023841729210037080257448673296881877565718986258036932062711}\\
+    a&=64135289477071580278790190170577389084825014742943447208116859632024\\\hookrightarrow&\phantom{=}\;\,\,532344630238623598752668347708737661925585694639798853367\\
+    b&=33372027594978156556226010605355114227940760344767554666784520987023\\\hookrightarrow&\phantom{=}\;\,\,841729210037080257448673296881877565718986258036932062711\\
     &\left\{\,p \in \mathbb{P}\mid (p=a \implies a \le p \land b \le q) \oplus (p=b \implies b \le p \land a \le q)\, \right\}\\
     &\left\{\,q \in \mathbb{P}\mid (q=a \implies a \le q \land b \le p) \oplus (q=b \implies b \le q \land a \le p)\, \right\}\\
     &\left\{\,n \in \mathbb{P} \times \mathbb{P}\mid 2^{862}-1 < n\, \right\}\\

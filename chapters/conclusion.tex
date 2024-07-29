@@ -1,5 +1,26 @@
 \chapter{Auswertung}
 
+\section{Faktorisierung von \textquote{RSA-155}}
+
+Als Teil meiner Arbeit und als Demonstration der Nötigkeit von immer größeren Bitgrößen für $n$ habe ich unter Verwendung der \textquote{\href{https://cado-nfs.gitlabpages.inria.fr/}{CADO-NFS}} Software, welche eine Implementation des \textquote{\textbf{N}umber \textbf{F}ield \textbf{Sieve}}-Algorithmuses (Zahlkörpersiebalgorithmus) bereitstellt eine Primfaktorzerlegung vorgenommen. Für Zahlen größer als $10^{100}$ ist der Zahlkörpersieb der effizienteste bekannte Algorithmus zur Primfaktorzerlegung\cite{SO2267146}. \textquote{RSA-155} ist eine Fastprimzahl mit $512$-bit und somit größer als $10^{100}$, welche 1999 von einem Team unter der Leitung von Herman te Riele in acht Monaten faktorisiert wurde\cite{rsa155}. Fünfundzwanzig Jahre später war ich in der Lage \textquote{RSA-155} auf einem Intel Pentium G4400T aus dem Jahre 2015 in nur rund zwanzig Tagen\footnote{$1.77025 \times 10^{6}$ Sekunden entsprechen 20 Tagen 11 Stunden 44 Minuten und 08 Sekunden} zu faktorisieren. Dies zeigt klar, dass die Faktorisierung von Fastprimzahlen im Laufe der Zeit durch Fortschritte im Bereich der Primfaktorzerlegung und einen breiteren öffentlichen Zugang zu Leistungsstarken Computern und entsprechenden Softwarepaketen um einiges erleichtert wurde. Dadurch werden größere Werte $n$ zwingend nötig, da RSA-Schlüssel sonst in für einen Angreifer realisierbarer Zeit gebrochen werden könnten. Angreifer mit ausreichenden Rechenresourcen, wie zum Beispiel staatlich unterstützte Akteure oder solche mit Cloud- oder Clustercomputern können RSA-Schlüssel mit solch geringer Bitgröße in einer noch kürzeren Zeit brechen. Meine Faktorisierung hat die erwarteten Primfaktoren $106603488380168454820927220360012878679207958575989291522270608237193062808643$ und $102639592829741105772054196573991675900716567808038066803341933521790711307779$ geliefert, welche auch 1999 so errechnet wurden:
+
+\begin{equation}
+  \begin{split}
+    p&=106603488380168454820927220360012878679207958575989291522270608237193062808643\\
+    q&=102639592829741105772054196573991675900716567808038066803341933521790711307779\\
+    n&=pq=1094173864157052742180970732204035761200373294544920599091384213147634998\\\hookrightarrow&\phantom{=}\;\,4288934784717997257891267332497625752899781833797076537244027146743531593354333897
+  \end{split}
+\end{equation}
+
+% [32;1mInfo[0m:Complete Factorization / Discrete logarithm: Total cpu/elapsed time for entire Complete Factorization 3.22105e+06/1.77025e+06 [20d 11:44:08]
+
+% 1770250.00000 / 86400
+% 20.489004629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629629
+
+% 106603488380168454820927220360012878679207958575989291522270608237193062808643 102639592829741105772054196573991675900716567808038066803341933521790711307779
+
+\newpage
+
 \section{Selbstständigkeitserklärung}
 
 Hiermit erkläre ich, dass ich die vorliegende Arbeit mit dem Titel \textquote{Bedeutung von starken Primzahlen — Eine Einführung in das RSA-Verschlüsselungssystem} selbstständig und ohne unerlaubte fremde Hilfe angefertigt, keine anderen als die angegebenen Quellen und Hilfsmittel verwendet und die den verwendeten Quellen und Hilfsmitteln wörtlich oder inhaltlich entnommenen Stellen als solche kenntlich gemacht habe.

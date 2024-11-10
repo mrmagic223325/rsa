@@ -1,9 +1,10 @@
-\documentclass[a4paper,12pt,twoside,fleqn]{book}
+\documentclass[a4paper, 12pt, twoside, fleqn]{book}
 
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{unicode-math}
 \usepackage{seqsplit}
+\usepackage{algorithm2e}
 
 \usepackage[a4paper,top=.5in,bottom=.5in,left=.5in,right=.5in]{geometry}
 \usepackage{booktabs}
@@ -15,11 +16,11 @@
 \usepackage{fancyhdr}
 \usepackage{titlesec}
 \usepackage{titling}
-\usepackage[hidelinks,hyperfootnotes=false,breaklinks=true,pdfauthor={Winterer, Mathis Aaron},pdftitle={Bedeutung von starken Primzahlen für die heutige Zeit},pdfsubject={Mathematische Exemplifikation des RSA-Algorithmuses},pdfkeywords={RSA,Verschlüsselung,Kryptographie,Mathematik,Primzahlen},colorlinks=true,linkcolor=black,filecolor=magenta,urlcolor=red,citecolor=blue]{hyperref}
+\usepackage[hidelinks,hyperfootnotes=true,breaklinks=true,pdfauthor={Winterer, Mathis Aaron},pdftitle={Bedeutung von starken Primzahlen für die heutige Zeit},pdfsubject={Mathematische Exemplifikation des RSA-Algorithmuses},pdfkeywords={RSA,Verschlüsselung,Kryptographie,Mathematik,Primzahlen},colorlinks=true,linkcolor=black,filecolor=magenta,urlcolor=red,citecolor=blue]{hyperref}
 \usepackage{tocloft}
 \usepackage{fontspec}
 \usepackage{polyglossia}
-\usepackage[backend=biber,bibstyle=authoryear,style=alphabetic,seconds=true,]{biblatex}
+\usepackage[backend=biber,bibstyle=authoryear,style=alphabetic,seconds=true]{biblatex}
 
 \setmainlanguage[variant=german,spelling=new,capitaleszett=true,babelshorthands=true]{german}
 \setmainfont{IBM Plex Mono}
@@ -125,4 +126,5 @@
 
   \nocite{*}
   \printbibliography{}
+
 \end{document}

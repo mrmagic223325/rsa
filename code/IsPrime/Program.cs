@@ -1,51 +1,179 @@
 using System.Numerics;
-using CommunityToolkit.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace IsPrime;
 
-public static class Program
+public abstract class Program
 {
+    // x^n mod m
+    // This is faster than BigInteger.ModPow [citation needed]
+    // Derived From https://en.wikipedia.org/wiki/Modular_exponentiation and https://github.com/RJT529/Algos/blob/master/Modular%20Exponentiation%5BRight-to-left%20binary%20method%5D
+    public static BigInteger ModPow(BigInteger x, BigInteger n, BigInteger m)
+    {
+        if (m == 1)
+            return 0;
+        
+        BigInteger res = 1;
+        x %= m;
+
+        while (n > 0)
+        {
+            if (n % 2 == 1)
+                res = (res * x) % m;
+            n >>= 1;
+            x = (x * x) % m;
+        }
+
+        return res;
+    }
+    
+    [DllImport("libc")]
+    static extern unsafe int getrandom(void* buf, int buflen, int flags);
+    
+    public static unsafe BigInteger GetRandomBigIntInRange(int size, BigInteger lo, BigInteger hi)
+    {
+        byte[] buf = new byte[size];
+        fixed (byte* bufPtr = buf)
+        {
+            getrandom(bufPtr, size, 0);
+        }
+
+        BigInteger result = new BigInteger(0);
+
+        for (int i = buf.Length - 1; i >= 0; i--)
+        {
+            result <<= 8;
+            result |= buf[i];
+        }
+
+        if (result < lo)
+            return (lo - result) + result;
+        if (result > hi)
+            return (result - hi) - hi;
+        
+        return result;
+    }
+    
+    static unsafe BigInteger GetRandomBigInt(int size)
+    {
+        byte[] buf = new byte[size];
+        fixed (byte* bufPtr = buf)
+        {
+            getrandom(bufPtr, size, 0);
+        }
+
+        BigInteger result = new BigInteger(0);
+
+        for (int i = buf.Length - 1; i >= 0; i--)
+        {
+            result <<= 8;
+            result |= buf[i];
+        }
+
+        return result;
+    }
+    
     public static void Main()
     {
-        Console.WriteLine($"{UInt128.MinValue} {UInt128.MaxValue}");
-        
-        int[] primes = [ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83,
-            89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179,	181, 191,
-            193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307,
-            311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431,
-            433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541 ];
+        // BigInteger = 2 Random 256 Byte Numbers That Pass MRT and Fermat
+        BigInteger p = 0, q = 0;
 
-        BigInteger bigAssNumber = BigInteger.Pow(2, 4096)-1;
-        
-        Console.WriteLine(bigAssNumber.GetBitLength());
-        foreach (var @byte in bigAssNumber.ToByteArray())
+        var t1 = new Task(() =>
         {
-            Console.WriteLine(@byte.ToHexString());
-        }
-        
+            Restart:
+            
+            // Generate Random number of 2048 bits / 256 Bytes
+            p = GetRandomBigInt(256);
+            
+            // All primes >2 are odd
+            p |= 1 << 0;
+                
+            Failed:
 
-        /*
-        foreach (int x in primes)
+            // Trial Division State
+            bool failed = false;
+            
+            // Divide by small primes
+            Parallel.ForEach(Primes.List, (prime, state) =>
+            {
+                if (p % prime == 0)
+                {
+                    p += 2;
+                    failed = true;
+                    state.Break();
+                }
+            });
+
+            if (failed)
+                goto Failed;
+            
+            if (!Fermat(p, 1))
+                
+                goto Restart;
+
+            if (MillerRabin.IsPrime(p, 5))
+                return;
+            
+            goto Restart;
+        });
+            
+        var t2 = new Task(() =>
         {
-            Console.WriteLine(Fermat(x, 1000));
-            Console.WriteLine(MillerRabin.IsPrime(x, 1000));
-        }
-        */
+            Restart:
+            
+            // Generate Random number of 2048 bits / 256 Bytes
+            q = GetRandomBigInt(256);
+            
+            // All primes >2 are odd
+            q |= 1 << 0;
+                
+            Failed:
+            
+            // Trial Division State
+            bool failed = false;
+            
+            // Divide by small primes (first 5000 primes)
+            Parallel.ForEach(Primes.List, (prime, state) =>
+            {
+                if (q % prime == 0)
+                {
+                    q += 2;
+                    failed = true;
+                    state.Break();
+                }
+            });
 
-        //Console.WriteLine(Fermat(8321, 1000));
-        //Console.WriteLine(MillerRabin.IsPrime(8321, 1000));
-    }
+            if (failed)
+                goto Failed;
 
-    private static bool Fermat(long n, int k)
+            if (!Fermat(q, 1))
+                goto Restart;
+
+            if (MillerRabin.IsPrime(q, 5))
+                return;
+            
+            goto Restart;
+        });
+
+        t1.Start();
+        t2.Start();
+
+        while (!(t1.IsCompleted && t2.IsCompleted)) {}
+        
+        BigInteger n = p * q;
+        Console.WriteLine($"{p} {q}\n");
+        Console.WriteLine($"Mod n = {n}");
+    } 
+    private static bool Fermat(BigInteger n, int k)
     {
-        if (n is 3 or 2)
+        if (n == 3 || n == 2)
             return true;
         
         for (int _ = 0; _ < k; _++)
         {
-            long a = Random.Shared.NextInt64(2, n - 2);
+            BigInteger a = GetRandomBigIntInRange( n.GetByteCount(),2,  n - 2);
             // Calculate `a^(n-1) mod n`
-            BigInteger res = BigInteger.ModPow(a, n - 1, n);
+            BigInteger res = ModPow(a, n - 1, n);
 
             if (res != 1)
             {

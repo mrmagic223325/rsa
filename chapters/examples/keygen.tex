@@ -1,0 +1,88 @@
+\section{Schlüsselerzeugung}
+
+Die Erzeugung eines Schlüsselpaares basiert auf der Selektion zweier kryptographisch sicheren zufälligen Primzahlen, standardmäßig als $p$ und $q$ bezeichnet, welche meistens beide die gleiche Bitgröße besitzen, dies ist jedoch nicht zwingend notwendig. Die größte Herausforderung stellt das effiziente\footnote{Normalerweise in 1-20 Sekunden} Finden dieser großen Primzahlen \char"2012{} 1024-bit, 2048-bit, \ldots{} \char"2012{} dar. Die von mir verwendete Selektion der Primzahlen basiert auf diesem grundlegenden Prozess:
+
+\begin{enumerate}
+  \item Zufällige Zahl mit gegebener Bitgröße generieren
+  \item Variable \textquote{failed} mit Standardwert false deklarieren
+  \item Modulo der Generierten Zahl und der 5000 ersten Primzahlen vergleichen
+    \begin{enumerate}
+      \item Falls Modulo gleich null
+      \item p um zwei erhöhen
+      \item failed auf true setzen
+      \item Zurück zu Schritt 2 gehen
+    \end{enumerate}
+  \item Fermat-Test durchführen
+    \begin{enumerate}
+      \item Falls fehlgeschlagen
+      \item Zurück zu Schritt 1 gehen
+    \end{enumerate}
+  \item Miller-Rabin-Test durchführen
+    \begin{enumerate}
+      \item Falls fehlgeschlagen
+      \item
+    \end{enumerate}
+\end{enumerate}
+
+\begin{figure}[H]
+  \begin{cminted}
+
+  // BigInteger ist ein Datentyp welcher beliebig große Ganzzahlen darstellen kann
+  BigInteger p = 0;
+
+  // p und q werden gleichzeitig berechnet, p als t1 und q als t2 (hier ausgelassen)
+  var t1 = new Task(() =>
+  {
+    // Dies ist ein Label zu welchem jederzeit zurückgegangen werden kann
+    Restart:
+
+    // Diese Funktion setzt p auf eine kryptographisch sichere 2048-bit/2056-byte BigInteger-Zahl.
+    p = GetRandomBigInt(256);
+
+    // Setze das LSB_0-bit auf 1, da alle Primzahlen größer 2 ungerade sind
+    p |= 1 << 0;
+
+    Failed:
+
+    bool failed = false;
+  \end{cminted}
+  \caption{Erste Schritte der Primzahlauswahl}
+\end{figure}
+\begin{figure}
+  \begin{cminted}
+
+    // Parallelisierte Probedivision der zu untersuchenden Zahl durch die ersten 5000 Primzahlen
+    Parallel.ForEach(Primes.List, (prime, state) =>
+    {
+      // Falls p mod prime gleich Null ist ist p eine zusammengesetzte Zahl
+      if (p % prime == 0)
+      {
+        // Wenn p zusammengesetzt ist um zwei erhöhen, die failed-Flagge setzen und aus der parallen Berechnung ausbrechen
+        p += 2;
+        failed = true;
+        state.Break();
+      }
+    });
+
+    // Falls Probedivision fehlschlug zurück zu Failed gehen und mit dem um zwei erhöhten p erneut versuchen
+    if (failed)
+      goto Failed;
+  \end{cminted}
+  \caption{Zweiter Schritt der Primzahlauswahl}
+\end{figure}
+\begin{figure}
+  \begin{cminted}
+
+    // Eine Iteration des Fermat-Testes ausführen und falls dieser fehlschlägt mit einem komplett neuen p beginnen
+    if (!Fermat(p, 1))
+      goto Restart;
+
+    // 5 Iterationen des Miller-Rabin-Testes ausführen und falls dieser p als Primzahl einstuft die Ausführung der Task beenden
+    if (MillerRabin.IsPrime(p, 5))
+      return;
+            
+    // Falls Miller-Rabin fehlschlägt wieder komplett neu starten
+    goto Restart;
+  \end{cminted}
+  \caption{Letzte Schritte der Primzahlauswahl}
+\end{figure}

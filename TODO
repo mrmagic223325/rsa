@@ -1,0 +1,4 @@
+- C# BigInteger Modular Exponentiation Is Really Slow (Compared To Other Programming Languages) And Implemented Without Much Optimisation => Use https://en.wikipedia.org/wiki/Exponentiation_by_squaring => ModPow Implementation Based On https://en.wikipedia.org/wiki/Modular_exponentiation#Pseudocode + https://github.com/RJT529/Algos/blob/master/Modular%20Exponentiation%5BRight-to-left%20binary%20method%5D
+
+
+- Prove That FirstPart Still Works With The New Head Loop

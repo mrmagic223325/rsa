@@ -1,15 +1,13 @@
 \section{Schlüsselerzeugung}
 
-Die Erzeugung eines Schlüsselpaares basiert auf der Selektion zweier kryptographisch sicheren zufälligen Primzahlen, standardmäßig als $p$ und $q$ bezeichnet, welche meistens beide die gleiche Bitgröße besitzen, dies ist jedoch nicht zwingend notwendig. Die größte Herausforderung stellt das effiziente\footnote{Normalerweise in 1-20 Sekunden} Finden dieser großen Primzahlen \char"2012{} 1024-bit, 2048-bit, \ldots{} \char"2012{} dar. Die von mir verwendete Selektion der Primzahlen basiert auf diesem grundlegenden Prozess:
+Die Erzeugung eines Schlüsselpaares basiert auf der Selektion zweier kryptographisch sicheren zufälligen Primzahlen, standardmäßig als $p$ und $q$ bezeichnet, welche meistens beide die gleiche Bitgröße besitzen, dies ist jedoch nicht zwingend notwendig. Die größte Herausforderung stellt das effiziente\footnote{Normalerweise 1-20 Sekunden} Finden dieser großen Primzahlen \char"2012{} 1024-bit, 2048-bit, \ldots{} \char"2012{} dar. Die von mir verwendete Selektion der Primzahlen basiert auf diesem grundlegenden Prozess:
 
 \begin{enumerate}
   \item Zufällige Zahl mit gegebener Bitgröße generieren
-  \item Variable \textquote{failed} mit Standardwert false deklarieren
   \item Modulo der Generierten Zahl und der 5000 ersten Primzahlen vergleichen
     \begin{enumerate}
       \item Falls Modulo gleich null
       \item p um zwei erhöhen
-      \item failed auf true setzen
       \item Zurück zu Schritt 2 gehen
     \end{enumerate}
   \item Fermat-Test durchführen
@@ -20,8 +18,9 @@ Die Erzeugung eines Schlüsselpaares basiert auf der Selektion zweier kryptograp
   \item Miller-Rabin-Test durchführen
     \begin{enumerate}
       \item Falls fehlgeschlagen
-      \item
+      \item Zurück zu Schritt 1 gehen
     \end{enumerate}
+  \item Primzahl speichern
 \end{enumerate}
 
 \begin{figure}[H]
@@ -45,11 +44,6 @@ Die Erzeugung eines Schlüsselpaares basiert auf der Selektion zweier kryptograp
     Failed:
 
     bool failed = false;
-  \end{cminted}
-  \caption{Erste Schritte der Primzahlauswahl}
-\end{figure}
-\begin{figure}
-  \begin{cminted}
 
     // Parallelisierte Probedivision der zu untersuchenden Zahl durch die ersten 5000 Primzahlen
     Parallel.ForEach(Primes.List, (prime, state) =>
@@ -67,11 +61,6 @@ Die Erzeugung eines Schlüsselpaares basiert auf der Selektion zweier kryptograp
     // Falls Probedivision fehlschlug zurück zu Failed gehen und mit dem um zwei erhöhten p erneut versuchen
     if (failed)
       goto Failed;
-  \end{cminted}
-  \caption{Zweiter Schritt der Primzahlauswahl}
-\end{figure}
-\begin{figure}
-  \begin{cminted}
 
     // Eine Iteration des Fermat-Testes ausführen und falls dieser fehlschlägt mit einem komplett neuen p beginnen
     if (!Fermat(p, 1))
@@ -84,5 +73,5 @@ Die Erzeugung eines Schlüsselpaares basiert auf der Selektion zweier kryptograp
     // Falls Miller-Rabin fehlschlägt wieder komplett neu starten
     goto Restart;
   \end{cminted}
-  \caption{Letzte Schritte der Primzahlauswahl}
+  \caption{Primzahlauswahlprozess in C\#}
 \end{figure}

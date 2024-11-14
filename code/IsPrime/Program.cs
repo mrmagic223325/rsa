@@ -168,10 +168,27 @@ public abstract class Program
     {
         if (n == 3 || n == 2)
             return true;
-        
+
         for (int _ = 0; _ < k; _++)
         {
-            BigInteger a = GetRandomBigIntInRange( n.GetByteCount(),2,  n - 2);
+            Restart:
+            
+            BigInteger a = GetRandomBigIntInRange(n.GetByteCount(), 2, n - 2);
+            
+            int coprimeRuns = 0;
+            
+            NotCoprime:
+
+            if (coprimeRuns > 5)
+                goto Restart;
+
+            if (BigInteger.GreatestCommonDivisor(a, n) != 1)
+            {
+                a++;
+                coprimeRuns++;
+                goto NotCoprime;
+            }
+
             // Calculate `a^(n-1) mod n`
             BigInteger res = ModPow(a, n - 1, n);
 

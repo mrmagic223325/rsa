@@ -1,6 +1,6 @@
 all: rsa.pdf
 
-rsa.pdf: rsa.tex chapters/examples/examples.tex chapters/examples/decryption.tex chapters/examples/encryption.tex chapters/examples/keyexchange.tex chapters/examples/keygen.tex chapters/examples/signing.tex chapters/principles/principles.tex chapters/conclusion.tex chapters/examples/prelim.tex chapters/introduction.tex
+rsa.pdf: rsa.tex chapters/principles/fermat_test.tex chapters/principles/fermat.tex chapters/examples/examples.tex chapters/examples/decryption.tex chapters/examples/encryption.tex chapters/examples/keyexchange.tex chapters/examples/keygen.tex chapters/examples/signing.tex chapters/principles/principles.tex chapters/conclusion.tex chapters/examples/prelim.tex chapters/introduction.tex
   xelatex -shell-escape rsa.tex && xelatex -shell-escape rsa.tex
 
 clean:

@@ -54,6 +54,7 @@
   breaklines,
 }
 \newtcblisting{cminted}[2][]{listing engine=minted, listing only,#1, title=#2, minted options={fontsize=\tiny}, minted language=csharp, colback=mintbg}
+\newtcblisting{xcminted}[2][]{listing engine=minted, listing only,#1, title=#2, minted options={fontsize=\footnotesize}, minted language=csharp, colback=mintbg}
 
 \titleformat{\chapter}[block]{\huge\bfseries}{\thechapter.}{0.5em}{}[\titlerule\titlerule\vspace{-2em}]
 
@@ -95,6 +96,31 @@
   \newpage
 }
 
+\renewcommand{\maketitle}{%
+  \begin{center}
+    \Huge\thetitle\\
+    \vspace{3em}
+    \Large{Facharbeit}\\
+    \vspace{1em}
+    \large{Im Fach}\\
+    \vspace{1em}
+    \large{Mathematik}\\
+    \vspace{3em}
+    \large{eingereicht an dem}\\
+    \vspace{1em}
+    \Large{Carl-Friedrich-Gauß Gymnasium}\\
+    \vspace{3em}
+    \large{von}\\
+    \vspace{1em}
+    \Large\theauthor\\
+    \vspace{2em}
+    \Large{Betreuer der Seminararbeit: E. Menzel}\\
+    \vspace{3em}
+    \large\textit{\textlang{german}{Frankfurt an der Oder, \today}}\\
+
+  \end{center}
+}
+
 \title{Bedeutung von starken Primzahlen für die heutige Zeit}
 \author{Winterer, Mathis Aaron}
 
@@ -103,14 +129,13 @@
   \frontmatter{}
   \pagenumbering{gobble}
   \maketitle
+  \newpage
 
   \pagestyle{plain}
   \pagenumbering{roman}
   \tableofcontents
   \newpage
   \listoffigures
-  \newpage
-  \listoftables
   \newpage
 
   \mainmatter{}

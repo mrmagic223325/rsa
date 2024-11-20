@@ -1,7 +1,6 @@
 set encoding utf8
 set terminal pdfcairo enhanced color dashed font "IBM Plex Mono, 14" rounded size 19 cm, 12 cm
 
-set title "Miller Rabin Fehlerquotient nach Iterationen"
 set key off
 set output 'mr_error.pdf'
 
@@ -18,4 +17,4 @@ set key right top
 
 set xrange [1:100]
 
-plot "./col" using 1:2 with line lc "#4a2387" lw 2 title "(1/4)^i"
+plot "./col" using 1:2 with line lc "#FF6961" lw 2 title "(1/4)^i"

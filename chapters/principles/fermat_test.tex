@@ -1,56 +1,51 @@
-\subsubsection{Fermatscher Primzahltest}
+\subsection{Fermatscher Primzahltest}
 
-Der kleine fermatsche Satz kann als rudimentärer Primzahltest verwendet werden, da die Kongruenz zwischen $a$ und $p$ nur gegeben ist, wenn $p$ eine Primzahl ist. Somit kann durch das iterative Testen dieser Kongruenz mit verschiedenen Basen $a$ ein Schluss auf die Primalität von $p$ gezogen werden:
+Der kleine fermatsche Satz kann als rudimentärer Primzahltest verwendet werden, da die Kongruenz zwischen $a$ und $p$ nur gegeben ist, wenn $p$ eine Primzahl ist. Somit kann durch das iterative Testen dieser Kongruenz mit verschiedenen Basen $a$ ein Schluss auf die Primalität von $p$ gezogen werden. Die folgende Abbildung \ref{csharp:fermat} implementiert eine Funktion, welche zurückgibt ob $n$ wahrscheinlich prim oder definitiv zusammengesetzt ist. Der Parameter $k$ erlaubt es die Präzision der Funktion durch weitere Durchläufe zu verbessern.
 
-\begin{figure}[h]
-  \begin{cminted}
-
-  // Falls die zu überprüfende Zahl 3 oder 2 ist
-  if (n == 3 || n == 2)
-    // Wahr zurückgeben
-    return true;
-
-  // Führe den Primzahltest für k Iterationen aus, beziehungsweise bis er fehlschlägt
-  for (int _ = 0; _ < k; _++)
+\begin{figure}[htbp]
+  \begin{xcminted}
+  
+  private static bool Fermat(BigInteger n, int k)
   {
-
-    // Label zu dem gesprungen wird falls keine teilerfremde Base a gefunden werden konnte
-    Restart:
-                
-    // Zufällige Base a mit 2 ≤ a ≤ n-2
-    BigInteger a = GetRandomBigIntInRange(n.GetByteCount(), 2, n - 2);
-
-    // Zählt die Anzahl der Versuche eine teilerfremde Base a basierend auf der selben Zufallszahl zu finden
-    int coprimeRuns = 0;
-
-    // Label zu dem gesprungen wird falls die derzeitige Base a nicht teilerfremd ist
-    NotCoprime:
-
-    // Falls die Base a mehr als 5 mal nicht teilerfremd war wird eine neue Zufallszahl generiert
-    if (coprimeRuns > 5)
-      goto Restart;
-
-    // Untersuche ob a und n teilerfremd sind
-    if (BigInteger.GreatestCommonDivisor(a, n) != 1)
+    // Falls die zu überprüfende Zahl 3 oder 2 ist
+    if (n == 3 || n == 2)
+      // Wahr zurückgeben
+      return true;
+    // Führe den Primzahltest für k Iterationen aus, beziehungsweise bis er fehlschlägt
+    for (int _ = 0; _ < k; _++)
     {
-      // erhöhe die Base a um eins
-      a++;
-      // erhöhe die Anzahl der Versuche um eins
-      coprimeRuns++;
-      // springe zum vorherigen Label
-      goto NotCoprime;
-    }
-
-    // Berechne a^n-1 mod n
-    BigInteger res = ModPow(a, n - 1, n);
-
-    // Falls der Rest nicht eins ist ist n nicht prim
-    if (res != 1)
-    {
-      // Gebe falsch zurück
-      return false;
+      // Label zu dem gesprungen wird falls keine teilerfremde Base a gefunden werden konnte
+      Restart:
+      // Zufällige Base a mit 2 ≤ a ≤ n-2
+      BigInteger a = GetRandomBigIntInRange(n.GetByteCount(), 2, n - 2);
+      // Zählt die Anzahl der Versuche eine teilerfremde Base a basierend auf der selben Zufallszahl zu finden
+      int coprimeRuns = 0;
+      // Label zu dem gesprungen wird falls die derzeitige Base a nicht teilerfremd ist
+      NotCoprime:
+      // Falls die Base a mehr als 5 mal nicht teilerfremd war wird eine neue Zufallszahl generiert
+      if (coprimeRuns > 5)
+        goto Restart;
+      // Untersuche ob a und n teilerfremd sind
+      if (BigInteger.GreatestCommonDivisor(a, n) != 1)
+      {
+        // erhöhe die Base a um eins
+        a++;
+        // erhöhe die Anzahl der Versuche um eins
+        coprimeRuns++;
+        // springe zum vorherigen Label
+        goto NotCoprime;
+      }
+      // Berechne a^n-1 mod n
+      BigInteger res = ModPow(a, n - 1, n);
+      // Falls der Rest nicht eins ist ist n nicht prim
+      if (res != 1)
+      {
+        // Gebe falsch zurück
+        return false;
+      }
     }
   }
-  \end{cminted}
+  \end{xcminted}
   \caption{Implementation eines Primzahltestes basierend auf dem kleinen fermatschen Satz}
+  \label{csharp:fermat}
 \end{figure}

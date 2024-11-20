@@ -24,7 +24,7 @@ Die Erzeugung eines Schlüsselpaares basiert auf der Selektion zweier kryptograp
 \end{enumerate}
 
 \begin{figure}[H]
-  \begin{cminted}
+  \begin{xcminted}
 
   // BigInteger ist ein Datentyp welcher beliebig große Ganzzahlen darstellen kann
   BigInteger p = 0;
@@ -34,7 +34,6 @@ Die Erzeugung eines Schlüsselpaares basiert auf der Selektion zweier kryptograp
   {
     // Dies ist ein Label zu welchem jederzeit zurückgegangen werden kann
     Restart:
-
     // Diese Funktion setzt p auf eine kryptographisch sichere 2048-bit/2056-byte BigInteger-Zahl.
     p = GetRandomBigInt(256);
 
@@ -42,7 +41,6 @@ Die Erzeugung eines Schlüsselpaares basiert auf der Selektion zweier kryptograp
     p |= 1 << 0;
 
     Failed:
-
     bool failed = false;
 
     // Parallelisierte Probedivision der zu untersuchenden Zahl durch die ersten 5000 Primzahlen
@@ -57,7 +55,6 @@ Die Erzeugung eines Schlüsselpaares basiert auf der Selektion zweier kryptograp
         state.Break();
       }
     });
-
     // Falls Probedivision fehlschlug zurück zu Failed gehen und mit dem um zwei erhöhten p erneut versuchen
     if (failed)
       goto Failed;
@@ -65,13 +62,11 @@ Die Erzeugung eines Schlüsselpaares basiert auf der Selektion zweier kryptograp
     // Eine Iteration des Fermat-Testes ausführen und falls dieser fehlschlägt mit einem komplett neuen p beginnen
     if (!Fermat(p, 1))
       goto Restart;
-
     // 5 Iterationen des Miller-Rabin-Testes ausführen und falls dieser p als Primzahl einstuft die Ausführung der Task beenden
     if (MillerRabin.IsPrime(p, 5))
       return;
-            
     // Falls Miller-Rabin fehlschlägt wieder komplett neu starten
     goto Restart;
-  \end{cminted}
+  \end{xcminted}
   \caption{Primzahlauswahlprozess in C\#}
 \end{figure}
